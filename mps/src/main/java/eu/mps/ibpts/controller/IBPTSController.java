@@ -1,7 +1,6 @@
 package eu.mps.ibpts.controller;
 
 import eu.mps.ibpts.domain.dto.AccountBalanceDTO;
-import eu.mps.ibpts.domain.dto.TransactionDTO;
 import eu.mps.ibpts.domain.dto.TransferRequestDTO;
 import eu.mps.ibpts.domain.entity.Account;
 import eu.mps.ibpts.domain.entity.Transaction;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class BankTransferController {
+public class IBPTSController {
     @Autowired
     private BankTransferService bankTransferService;
 
@@ -36,11 +35,9 @@ public class BankTransferController {
     }
     catch(IbptsException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-    catch(Exception e){
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Invalid Account");
     }}
 
+   // Get the balance
     @GetMapping("/accounts/{accountId}/balance")
     public ResponseEntity<Object> getAccountBalance(@PathVariable long accountId) {
         try {
@@ -52,7 +49,8 @@ public class BankTransferController {
         }
     }
 
-    @GetMapping("/accounts/{accountId}/{count}/ministmt")
+    // Get the mini statement for {count} transactions
+    @GetMapping("/accounts/{accountId}/{count}/statements/mini")
     public ResponseEntity<Object> getMiniStatement(@PathVariable long accountId, @PathVariable int count) {
         try {
             List<Transaction> transactionList = miniStatementService.getMiniStatement(accountId, count);

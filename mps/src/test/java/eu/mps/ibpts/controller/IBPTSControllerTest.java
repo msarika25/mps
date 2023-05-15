@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BankTransferControllerTest {
+public class IBPTSControllerTest {
 
     @Mock
     private BankTransferService bankTransferService;
@@ -68,18 +68,6 @@ public class BankTransferControllerTest {
         // Verify that the response is a bad request and contains the correct error message
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Invalid account", response.getBody());
-    }
-
-    @Test
-    public void testTransferException() throws Exception {
-        // Set up mock behavior for bankTransferService.transfer method to throw an exception
-        when(bankTransferService.transfer(any(TransferRequestDTO.class))).thenThrow(new RuntimeException("Some error occurred"));
-
-        ResponseEntity<Object> response = bankTransferController.transfer(transferRequestDTO);
-
-        // Verify that the response is an internal server error and contains the correct error message
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals("Invalid Account", response.getBody());
     }
 
     @Test

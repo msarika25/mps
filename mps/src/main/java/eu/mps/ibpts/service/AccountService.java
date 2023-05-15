@@ -2,29 +2,34 @@ package eu.mps.ibpts.service;
 
 import eu.mps.ibpts.domain.entity.Account;
 import eu.mps.ibpts.domain.repository.AccountRepository;
+import eu.mps.ibpts.exception.IbptsException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigDecimal;
 
+/**
+ * Get the account balance
+ * Get account details
+ * update accounts with debit and credit amount
+ */
+
+@Service
 public class AccountService {
-    private Map<String, Account> accounts;
 
-    public AccountService() {
-        this.accounts = new HashMap<>();
+    @Autowired
+    AccountRepository accountRepository;
+
+    public Account getAccountBalance(long accountId) throws IbptsException {
+        return accountRepository.getAccountBalance(accountId);
     }
 
-    public void addAccount(Account account) {
-        accounts.put(account.getAccountId(), account);
+    public Account getAccount(long accountId){
+        return accountRepository.getAccountById(accountId);
     }
 
-    public void updateAccount(Account account) {
-        accounts.put(account.getAccountId(), account);
+    public void updateAccount(long accountId, BigDecimal amount) throws IbptsException {
+         accountRepository.updateBalance(accountId, amount);
     }
 
-    public Account getAccountById(String accountId) throws InvalidAccountException {
-        if (!accounts.containsKey(accountId)) {
-            throw new InvalidAccountException("Invalid account ID");
-        }
-        return accounts.get(accountId);
-    }
 }
