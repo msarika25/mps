@@ -72,9 +72,9 @@ public class IBPTSControllerTest {
 
     @Test
     public void testGetAccountBalance() throws IbptsException {
-        long accountId = 1234;
+        long accountId = 1234L;
         BigDecimal balance = new BigDecimal(1000);
-        Account account = new Account(accountId, "John", balance);
+        Account account = new Account(accountId, "EUR", balance);
         when(accountService.getAccountBalance(accountId)).thenReturn(account);
 
         ResponseEntity<Object> responseEntity = bankTransferController.getAccountBalance(accountId);
@@ -87,7 +87,7 @@ public class IBPTSControllerTest {
 
     @Test
     public void testGetAccountBalanceWithInvalidId() throws IbptsException {
-        long accountId = 1234;
+        long accountId = 1234L;
         when(accountService.getAccountBalance(accountId)).thenThrow(new IbptsException("Invalid account"));
 
         ResponseEntity<Object> responseEntity = bankTransferController.getAccountBalance(accountId);
@@ -97,7 +97,7 @@ public class IBPTSControllerTest {
 
     @Test
     public void testGetMiniStatement() throws IbptsException {
-        long accountId = 1234;
+        long accountId = 1234L;
         int count = 5;
         List<Transaction> transactionList = new ArrayList<>();
         when(miniStatementService.getMiniStatement(accountId, count)).thenReturn(transactionList);
@@ -109,7 +109,7 @@ public class IBPTSControllerTest {
 
     @Test
     public void testGetMiniStatementWithInvalidId() throws IbptsException {
-        long accountId = 1234;
+        long accountId = 1234L;
         int count = 5;
         when(miniStatementService.getMiniStatement(accountId, count)).thenThrow(new IbptsException("Invalid account"));
 
